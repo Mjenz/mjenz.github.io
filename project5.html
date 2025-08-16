@@ -22,7 +22,7 @@
         Skills: Python, Lagrangian Mechanics, SymPy, Mechanical Simulation, Numerical Integration, Impacts, Coordinate Transformations, Physics Animation
     </p>
     <video autoplay muted loop playsinline style="width: 40%; max-width: 800px; margin: 20px auto; display: block;">
-        <source src="img/me 314/top vid.mp4" type="video/mp4">
+        <source src="img/me_314/top vid.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
     <div class="center-button">
@@ -46,8 +46,8 @@
             <li>
                 The homogenous transformation matrices link every object’s frame to the world frame {w}, allowing us to check for impact conditions and later display the simulated system<br>
                 <div class="image-row2" algin>
-                    <img src="img/me 314/config.jpeg" alt="Drawing with frames labeled" style="width: 45%; margin: 10px;"> 
-                    <img src="img/me%20314/tf.png" alt="Drawing with frames labeled" style="width: 47%; margin: 10px;"> 
+                    <img src="img/me_314/config.jpeg" alt="Drawing with frames labeled" style="width: 45%; margin: 10px;"> 
+                    <img src="img/me_314/tf.png" alt="Drawing with frames labeled" style="width: 47%; margin: 10px;"> 
                 </div>
                 <div class="image-caption">Configuration and reference frames for the jack and box</div>
             </li>
@@ -78,7 +78,7 @@
             <li><strong>Shaking force:</strong> Time-dependent horizontal force, implemented using SymPy’s Heaviside for piecewise control.</li>
         </ul>
         <div class="image-row2" algin>
-            <img src="img/me 314/heavy.png" alt="Heavyside visualization" style="width: 50%;">
+            <img src="img/me_314/heavy.png" alt="Heavyside visualization" style="width: 50%;">
         </div>    
         <div class="image-caption">Visualization of the Heaviside function which shakes the box</div>
 
@@ -98,7 +98,7 @@
             </li>
         </ul>
         <div class="image-row2" algin>
-            <img src="img/me%20314/t.png" alt="Impact Update Laws" style="width: 50%;">
+            <img src="img/me_314/t.png" alt="Impact Update Laws" style="width: 50%;">
         </div>
         <div class="image-caption">Configuraiton right before impact, where reference frames will cross one another and trigger a response</div>
     </div>
@@ -112,11 +112,12 @@
             <li>
                 Each RK4 step includes impact checks; if triggered, velocities and positions are updated immediately according to impact laws, then simulation resumes.
             </li>
+        </ul>
+
             <video autoplay muted loop playsinline style="width: 40%; max-width: 800px; margin: 20px auto; display: block;">
-                <source src="img/me%20314/another%20video.mp4" type="video/mp4">
+                <source src="img/me_314/another%20video.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
-        </ul>
         <!-- Optional: Animation or graphical results here -->
     </div>
 
