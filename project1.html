@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Motorized Prosthetic Arm</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/portfolio.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+</head>
+<body>
+<div class="container">
+    <a href="index.html#portfolio-gallery" style="text-decoration:none; font-weight:bold;">
+        ← Back to Portfolio
+    </a>
+    <h1 style="text-align: center">Motorized Prosthetic Arm</h1>
+    <div class="image-row2">
+        <img src="img/prosthetic_arm/prototype1.png" alt="BD" style="width:25%; margin:10px 0;">
+        <img src="img/prosthetic_arm/prototype2.png" alt="Torqes" style="width:19.5%; margin:10px 0;">
+    </div>
+    <p class="skills">
+        Skills: Embedded Systems, BLDC Control, simpleFOC, Biomechanics, Human-Robot Interaction, Mechatronics
+    </p>
+
+    <div class="center-button">
+   
+        <a href="YOUR_PAPER_LINK" target="_blank" class="paper-btn ">
+            <i class="fas fa-file-alt"></i> Published Paper
+        </a>
+        <a href="YOUR_POSTER_LINK" target="_blank" class="paper-btn ">
+            <i class="fas fa-image"></i> Research Poster
+        </a>
+        <a href="YOUR_REPO_LINK" target="_blank" class="github-btn">
+            <i class="fab fa-github"></i> GitHub Repo
+        </a>
+    </div>
+  
+    <div class="section">
+        <h2>My Involvement</h2>
+        <p>
+            This project began as an undergraduate research effort and has since grown into the focus of my Master’s thesis in Mechanical Engineering. 
+            Over the past year, I published my first conference paper on this topic in ICORR for the Rehabweek 2025 conference and presented my work at Northwestern's Mechanical Engineering Research Symposium, where I was awarded Best Undergraduate Poster.
+        </p>
+        <p>
+            This portfolio page serves as an ongoing update to the project as I continue to develop and refine the motorized prosthetic arm over the next year.
+        </p>
+    </div>
+
+
+    <div class="section">
+        <h2>Project Motivation & Background</h2>
+        <p>
+            For individuals with upper-limb loss, the absence of natural arm swing during walking impacts balance and stability. Traditional prosthetic arms are motor-less, and therefore do not restore the natural dynamics of gait.
+        </p>
+        <p>
+            This project aims to build a motorized prosthesis that actively mimics natural arm swing, restoring biomechanical symmetry and improving overall walking stability.
+        </p>
+        <div class="image-row2">
+            <img src="img/prosthetic_arm/armswingdyn.jpg" alt="Arm Swing Diagram" style="width:40%; margin:10px 0;">
+        </div>
+        <div class="image-caption">Arm swing during ambulation helps dissipate angular momentum, this dissipation is interrupted after limb loss. It may be restored with over exertion on the unaffected side, however, this introduces imbalance in a different axis [1]</div>
+    </div>
+
+    <div class="section">
+        <h2>System Overview</h2>
+        <ul>
+            <li>New mechanical design prioritized joint alignment to reduce friction, fully encases BLDC motor and will have an add on to house the PCB.</li>
+            <li>Embedded system uses a<strong>simpleFOC</strong> controller to drive a brushless DC (BLDC) motor.</li>
+        </ul>
+
+        <div class="image-row2">
+          <img src="img/prosthetic_arm/new_design.png" alt="System Overview" style="width:32.5%; margin:10px;">
+          <video autoplay muted loop playsinline style="width: 40%; max-width: 800px; margin: 10px;">
+            <source src="img/prosthetic_arm/IMG_1984.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+
+          </video>
+        </div>
+        <div class="image-caption">Left: Mechanical design currently being manufactured [2], Right: SimpleFOC control in action on prototype</div>
+    </div>
+
+    <div class="section">
+        <h2>Control Approach</h2>
+        <ul>
+            <li>We plan on testing <strong>position control vs torque control</strong> to see which produces more natural arm swing</li>
+            <li>Trajectory generation: the controller will follow either backward-calculated torque trajectories or collected position trajectories.</li>
+            <li>Biomarker-based synchronization: we hope to collect heelstrike data during use to correlate to a known point in arm swing progression to line up prosthetic arm swing with that of the user</li>
+        </ul>
+
+        <div class="image-row2">
+            <img src="img/prosthetic_arm/armswingdiagram.png" alt="BD" style="width:45%; margin:10px 0;">
+            <img src="img/prosthetic_arm/torques.png" alt="Torqes" style="width:40%; margin:10px 0;">
+        </div>
+        <div class="image-caption">Recall from previous research where we have back calculated the elbow torque using a double pendulum model [3]</div>
+    </div>
+
+    <div class="section">
+        <h2>Key Takeaways & Next Steps</h2>
+        <ul>
+            <li>Importance of anticipating external human dynamics when designing controllers.</li>
+            <li>Motor selection and gearing critical for responsiveness in real-world use.</li>
+            <li>Filtering and hybrid control strategies required for robustness.</li>
+            <li><strong>Next steps (Master’s thesis):</strong> redesign motor actuation, explore hybrid position-torque control, expand participant testing.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>References</h2>
+             <div><a href="https://www.clinbiomech.com/article/S0268-0033(20)30124-8/abstract" style="text-decoration:none; font-weight:bold;">[1] Kent and Major, 2020</a></div>
+            <div>[2] Conference poster (link above)</div>
+            <div>[3] Conference paper (link above)</div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,109 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+    background-color: #836eaa;
+}
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f3f3f3;
+}
+h1, h2 {
+    color: #3a3a3a;
+}
+img, video {
+    max-width: 100%;
+    height: auto;
+    margin: 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+.section {
+    margin-bottom: 40px;
+    margin-left: 40px;
+    margin-right: 40px;
+    text-align: left;
+}
+.skills {
+    font-style: italic;
+    color: #666;
+    align-content: center;
+    text-align: center;
+    margin:20px;
+}
+.image-caption {
+    font-style: normal;
+    color: #666;
+    align-content: center;
+    text-align: center;
+}
+.image-row {
+    text-align: center;
+}
+
+.image-row2 {
+    text-align: center;
+}
+.image-row img {
+    max-width: 300px;
+    height: auto;
+    display: inline-block;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+.image-row2 img {
+    height: auto;
+    display: inline-block;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+.center-button {
+    text-align: center;
+    margin: 20px 0;
+}
+.github-btn {
+    display: inline-block;
+    background-color: black;
+    color: white;
+    padding: 10px 15px;
+    margin: 20px 20px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: normal;
+    transition: background-color 0.2s ease;
+
+}
+.github-btn i {
+    margin-right: 6px;
+}
+.github-btn:hover {
+    background-color: #333;
+    color: white;
+}
+
+.paper-btn {
+    display: inline-block;
+    background-color: #836eaa;
+    color: white;
+    padding: 10px 15px;
+    margin: 20px 20px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: normal;
+    transition: background-color 0.2s ease;
+
+}
+.paper-btn i {
+    margin-right: 6px;
+}
+.paper-btn:hover {
+    background-color: #4e2a84;
+    color: white;
+}

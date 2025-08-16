@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>EE 326 – Web Camera Project</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="css/portfolio.css">
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script
+            id="MathJax-script"
+            async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+    </head>
+    <body>
+        <div class="container">
+            <a href="index.html#portfolio-gallery" style="text-decoration: none; font-weight: bold;" >← Back to Portfolio</a>
+            
+            <h1 style="text-align: center">EE 326 – Web Camera Project</h1>
+
+            <p class="skills">
+                Skills: Embedded Systems, PCB Design (Eagle CAD), ESP32 & MCU Firmware (Microchip Studio), SMD Soldering, 
+                Hardware–Software Integration, Mechanical Design (Onshape), 3D Printing
+            </p>
+            <video autoplay muted loop playsinline style="width: 100%; max-width: 800px; margin: 20px auto; display: block;">                
+                <source src="img/webcam/top.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>
+
+
+            <div class="section">
+                <h2>Project Overview</h2>
+                <p>
+                    For EE 326: Electronic System Design, we set out to design and build a working web camera system from the ground up.
+                    The webcam streams images to a locally hosted website via ESP32 Wi-Fi. The main goal was to learn and apply the principles of electronic system design in an end-to-end product, integrating all subsystems from hardware to firmware and networking.
+                </p>
+                <ul>
+                    <li><strong>MCU:</strong> SAM4S8B (Microchip) – bridges the camera and Wi-Fi module</li>
+                    <li><strong>Camera:</strong> OV2640 – streams live images</li>
+                    <li><strong>Wi-Fi Module:</strong> ESP32 – hosts the web interface and streams captured images</li>
+                </ul>
+
+            </div>
+
+            <div class="section">
+                <h2>Design & Prototyping</h2>
+                <p>
+                    We began by prototyping the system with breakout boards for each component. This allowed us to verify communications (UART/SPI) between the MCU, camera, and ESP32 module before committing to a custom printed circuit board (PCB) design.
+                    Careful documentation of all wire connections ensured that we could accurately capture the working prototype in schematic form.
+                </p>
+                <div class="image-row">
+                    <img src="img/webcam/breakout board1.jpg" alt="Breakout board prototype" />
+                    <img src="img/webcam/breakout board 2.jpg" alt="MCU breakout board setup" />
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>PCB Design</h2>
+                <p>
+                    After validating our design, we created a custom PCB in Autodesk Eagle. This significantly reduced wiring complexity and improved robustness, transforming our rat's nest of wires into a neat, compact module.
+                    Key communication lines (UART, SPI, four GPIOs) were routed and labeled for clear silkscreen assembly. Special attention was paid to include capacitor and resistor values directly on the silkscreen for easy assembly.
+                </p>
+                <div class="image-row">
+                    <img src="img/webcam/pcb.png" alt="Camera MCU schematic and PCB layout" />
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Assembly & Integration</h2>
+                <p>
+                    Upon arrival of the manufactured PCB, we soldered on all components and ran extensive continuity and connection tests.
+                    Integration and debugging required step-by-step validation of each module's communication with the others, especially at the software/hardware boundary.
+                </p>
+                <ul>
+                    <li>Verified power rails and connectivity with a DMM</li>
+                    <li>Flashed test firmware to validate MCU-to-camera and MCU-to-ESP32 channels</li>
+                </ul>
+                <div class="image-row">
+                    <img src="img/webcam/IMG_1902.png" alt="3D model of PCB assembly" />
+                    <img src="img/webcam/IMG_1903.png" alt="3D model of PCB assembly" />
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>3D Design & Mechanical Integration</h2>
+                <p>
+                    To ensure proper fit within the webcam housing, we created a 3D model of the completed PCB assembly. This enabled virtual verification of mounting hole patterns and mechanical clearances before physical assembly.
+                </p>
+                <div class="image-row">
+                    <img src="img/webcam/pcb in enc.jpg" alt="3D model of PCB assembly" />
+                    <img src="img/webcam/enclosure.jpg" alt="3D model of PCB assembly" />
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Challenges</h2>
+                <ul>
+                    <li>
+                        <strong>PCB:</strong> Due to an unconnected power pin on the camera, we spent hours debugging only to have the camera jump to life when this pin was connected
+                    </li>
+                    <li>
+                        <strong>Frame rate:</strong> The camera FPS is extremely slow, future work includes ironing out the firmware to increase FPS
+                    </li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Lessons Learned</h2>
+                <ul>
+                    <li>
+                        Beginning with breakout boards helped de-risk the main design and catch communication errors early.
+                    </li>
+                    <li>
+                        Double check which pins need to be connected for components, i.e. extra power and ground pins even if the peripheral is already connected elsewhere
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>

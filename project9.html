@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Electronic CVT Mechanical Design</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/portfolio.css">
+    
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+</head>
+<body>
+<div class="container">
+    <a href="index.html#portfolio-gallery" style="text-decoration:none; font-weight:bold;">
+        ← Back to Portfolio
+    </a>
+    <h1 style="text-align: center">Electronic CVT Mechanical Design</h1>
+    <p class="skills">Skills: Mechanical Design, Machine Design, Machining, CAD (Solidworks), Design for Manufacturing, Fastener Analysis, Finite Element Analysis, Motor Selection</p>
+
+
+    
+    <video controls autoplay muted loop playsinline style="width: 100%; max-width: 800px; margin: 20px auto; display: block;">
+        <source src="img/ECVT/cvt_new.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    
+    <div class="section">
+        <h2>Project Overview</h2>
+        <p>This design document outlines the mechanical engineering process behind the electronic continuously 
+            variable transmission (eCVT) system built for the Northwestern Baja SAE team. The goal was to 
+            electronically actuate the CVT using a ball screw and motor assembly to adjust gear ratios on demand, 
+            replacing traditional spring and cam-based CVT actuation.</p>
+        </div>
+
+    <div class="section">
+        <h2>Design Requirements</h2>
+        <ol>
+            <li>Generate sufficient force to actuate the primary sheave</li>
+            <li>Ensure torque transmission through robust bolted connections</li>
+            <li>Ensure overall structural integrity and packaging feasibility</li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <h2>System Layout</h2>
+        <p>The main components of the eCVT system include:</p>
+        <ul>
+            <li>Moving and static sheaves</li>
+            <li>Ball screw and nut</li>
+            <li>Flange and adapter</li>
+            <li>Motor and coupler</li>
+            <li>Thrust bearing and linear mounting system</li>
+        </ul>
+        <img src="img/ECVT/Picture1.png" alt="eCVT system layout placeholder">
+    </div>
+
+    <div class="section">
+        <h2>Motor and Force Calculations</h2>
+        <p>In order to <strong>achieve goal 1</strong> band generate sufficient force to actuate the primary sheave, I needed to find the force actually required!
+        To do this, I started with this equation for the 'side force'. This is the force required to move the sheave of the secondary (which we are still using as stock).
+            Our system need to be able to output this force in order to work. Using the equation below, we found it to be near <strong>1500N.</strong></p>
+        <img src="img/ECVT/sideforce.png" alt="Motor torque curve">
+        <p>Next, I needed to find out how I could generate this force using a DC motor. Our team used a ball screw and nut system to transfer rotational force to linear.
+        Using the equations below for a ball screw, I could derive the specifed torque required from our motor. It came out to be around <strong>3.8Nm</strong></p>
+        <img src="img/ECVT/ballscreweq.png" alt="Motor torque curve">
+        <p>The last unknown to solve for motor speccing was the rotational speed. Since I knew the ball screw needed to travel its full length (~25mm) in under 1 second. With a screw of lead 5mm then this comes out to 5 rev/s or approximately <strong>350RPM</strong>.</p>
+       
+    </div>
+
+    <div class="section">
+        <h2>Bolted Connection Analysis</h2>
+        <p>Bolted flange connections needed to be evaluated to ensure frictional clamping force exceeded the expected torque. This next series of calculations is aimed at finding the reaction force exerted by the friction btween the sheave and sheave flange, as seen below which have holes for the bolted connection.</p>
+        <img src="img/ECVT/Picture3.png" alt="Bolted connection diagram">
+        
+        <!-- Inline equations: use \( ... \) -->
+        <p>Bolt preload: \( P_i = \frac{3}{4} \cdot \left(S_p \cdot \frac{1}{2}\right) \cdot A_T \)</p>
+        <p>Force of friction: \( F_{\text{friction}} = \mu \cdot F_N \)</p>
+        <p>Reaction torque: \( T = F_{\text{friction}} \cdot L \)</p>
+
+        I found that the reaction torque would be about <strong>59Nm</strong>, far stronger than the maximum output torque from the engine, as seen below, making the design safe.
+        <img src="img/ECVT/motor-torque-curve.png" alt="Bolted connection diagram">
+
+    </div>
+
+    <div class="section">
+        <h2>Custom Component Design</h2>
+        <p>Several components were custom-designed and manufactured, including the sheaves, coupler, and ball screw mounts. Due to its size, the coupler gave me quite a bit of trouble while manufacturing. However, I am happy to say that with the help of the team this primary ECVT was manufactured almost entirely by us.</p>
+        <img src="img/ECVT/Picture2.png" alt="Exploded view of eCVT components">
+
+
+    </div>
+
+    <div class="section">
+        <h2>Mounting and Integration</h2>
+        <p>The mounting system includes linear rods and bearings to constrain motion, and a plate for mounting sensors and the ball nut. Though functional, the system was too large to be well integrated to the existing chassis. This was especially apparent as the end o the ECVT motor extended beyond the cage. </p>
+    </div>
+
+    <div class="section">
+        <h2>Conclusions and Recommendations</h2>
+        <p>While the eCVT functioned and met performance goals, packaging challenges prevented its use in competition. Future improvements include alternative actuation methods (e.g., pneumatic), better motor packaging, and more robust mounting strategies.</p>
+    </div>
+
+</div>
+</body>
+</html>

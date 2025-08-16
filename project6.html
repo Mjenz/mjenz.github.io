@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <title>Mobile Manipulator – Autonomous Robot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/portfolio.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    
+</head>
+<body>
+<div class="container">
+    <a href="index.html#portfolio-gallery" style="text-decoration:none; font-weight:bold;">
+        ← Back to Portfolio
+    </a>
+    <h1 style="text-align: center">Mobile Manipulator – KUKA YouBot Capstone</h1>
+
+   <p class="skills">
+    Skills: Python, Motion Planning, Robot Kinematics, Task-Space Control, 
+    Joint Limits, Mobile Manipulation, Feedback Control, CoppeliaSim Simulation
+</p>
+
+    <video autoplay muted loop playsinline style="width: 80%; max-width: 800px; margin: 20px auto; display: block;">
+        <source src="img/me449/best_recording.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="center-button">
+        <a href="https://github.com/Mjenz/Mobile-Manipulator" target="_blank" class="github-btn">
+            <i class="fab fa-github"></i> GitHub Repo
+        </a>
+    </div>
+    <div class="section">
+        <h2>Project Overview</h2>
+        <p>This capstone project implements motion planning and kinematic task-space feedback control of a KUKA YouBot mobile manipulator. The goal was to autonomously complete a pick-and-place task using a 5-DOF arm and mecanum wheels, simulated in CoppeliaSim.</p>
+        <p>Key features include:</p>
+        <ul>
+            <li>Trajectory generation for end-effector pick-and-place tasks.</li>
+            <li>PI feedback control in task space for minimizing twist error.</li>
+            <li>Joint limit enforcement to prevent self-collisions and ensure feasible configurations.</li>
+            <li>Integration of wheel odometry with arm kinematics for mobile manipulation.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Trajectory Generator</h2>
+        <p>The reference trajectory is defined by 8 via points for the pick-and-place task, including standoff positions, cube approach, and gripper operations. Using <strong>Modern Robotics</strong> Cartesian_Trajectory, the end-effector path is interpolated in SE(3) coordinates.</p>
+        <p>Pseudocode:</p>
+        <ol>
+            <li>Def Trajectory_Generator()</li>
+            <li>Unpack via points</li>
+            <li>For each via point: compute move time and generate Cartesian trajectory</li>
+            <li>Save trajectory with gripper states to CSV</li>
+        </ol>
+        <div class="image-row">
+            <video autoplay muted loop playsinline style="width: 60%; max-width: 800px; margin: 10px">
+                    <source src="img/me449/traj_gen.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>            
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Feedback Controller</h2>
+        <p>The mobile manipulator is controlled with task-space PI feedback with feed-forward control. Twist error <em>X_err</em> is calculated between the desired and current end-effector configurations, and used to generate an optimal twist response to minimize this error:</p>
+        <img src="img/me449/control equation.png" alt="New task results">
+        <p>Joint speeds are computed using a concatenated Jacobian of wheels (<em>J_base</em>) and arm (<em>J_arm</em>), with pseudoinverse to solve for least-squares optimal joint velocities.</p>
+        <div class="image-row">
+            <img src="img/me449/pinv.png" alt="New task results">
+        </div>
+        Using forward euler integration, we can simulate the behavior of the system and observe how well the control system is tuned. See the comparison below in the twist error plots and corresponding simulations.
+        <div class="image-row">
+            <img src="img/me449/best.png" alt="New task results">
+            <img src="img/me449/overshoot.png" alt="New task results">
+        </div>
+        <div class="image-row">
+            <video autoplay muted loop playsinline style="width: 40%; max-width: 800px; margin: 10px">
+                    <source src="img/me449/best_cropped.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>            
+            <video autoplay muted loop playsinline style="width: 40%; max-width: 800px; margin: 10px">
+                <source src="img/me449/overshoot%20cropped.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="image-caption">Comparison of well  controlled system on the left vs. a poorly controlled system (underdamped) on the right</div>
+    </div>
+
+    <div class="section">
+        <h2>Joint Limits</h2>
+        <p>Joint limits prevent self-collision and infeasible configurations. Violations are detected during the FeedbackControl step, and offending joints are excluded from the pseudoinverse calculation. This ensures the robot maintains a physically achievable trajectory while completing the task.</p>
+        <div class="image-row">
+            <video autoplay muted loop playsinline style="width: 40%; max-width: 800px; margin: 10px">
+                <source src="img/me449/without%20joint%20limits.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>            
+            <video autoplay muted loop playsinline style="width: 40%; max-width: 800px; margin: 10px">
+                <source src="img/me449/with%20joint%20limits.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class = "image-caption">
+                Comparison of robot movement without joint limits on the left vs. with joint limits on the right
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="section">
+        <h2>Reflections</h2>
+        This project was my first foray into the world of robotic control and I have to say - it's got me hooked. The combination of controls engineering, computer science, and mechanical engineering keeps in interesting from start to finish. I am looking forward to more projects like this!
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Physics Simulation – Lagrangian Impacts</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/portfolio.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+</head>
+<body>
+<div class="container">
+    <a href="index.html#portfolio-gallery" style="text-decoration:none; font-weight:bold;">
+        ← Back to Portfolio
+    </a>
+    <h1 style="text-align: center">Physics Simulation – Lagrangian Impacts (Jack-in-Box)</h1>
+
+    <p class="skills">
+        Skills: Python, Lagrangian Mechanics, SymPy, Mechanical Simulation, Numerical Integration, Impacts, Coordinate Transformations, Physics Animation
+    </p>
+    <video autoplay muted loop playsinline style="width: 40%; max-width: 800px; margin: 20px auto; display: block;">
+        <source src="img/me 314/top vid.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="center-button">
+        <a href="https://github.com/Mjenz/physics-simulation" target="_blank" class="github-btn">
+            <i class="fab fa-github"></i> GitHub Repo
+        </a>
+    </div>
+
+    <div class="section">
+        <h2>Project Overview</h2>
+        <p>
+            For this MECH_ENG 314 capstone, I modeled the dynamics of a jack-in-a-box in 2D, applying advanced Lagrangian mechanics and computational methods to capture both free motion and impacts. This project combines analytical physics, rigorous coding, and visualization—a full pipeline from equations to simulation.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>System Modeling and Setup</h2>
+        <ul>
+            <li>Both box and jack are described by positions and angles: \((x, y, \theta)\) for each.</li>
+            <li>All reference frames and transformations are defined analytically. Symbolic expressions (via SymPy) allow automatic differentiation for velocities and energies.</li>
+            <li>
+                The homogenous transformation matrices link every object’s frame to the world frame {w}, allowing us to check for impact conditions and later display the simulated system<br>
+                <div class="image-row2" algin>
+                    <img src="img/me 314/config.jpeg" alt="Drawing with frames labeled" style="width: 45%; margin: 10px;"> 
+                    <img src="img/me%20314/tf.png" alt="Drawing with frames labeled" style="width: 47%; margin: 10px;"> 
+                </div>
+                <div class="image-caption">Configuration and reference frames for the jack and box</div>
+            </li>
+            
+        </ul>
+    </div>
+
+
+    <div class="section">
+        <h2>Euler-Lagrange Equations & Solution</h2>
+        <ul>
+
+            <li>
+                By the Action Principle - we know a particle will take the path of least local action. Therefore, if we integrate its action (the Legrangian) over a path, we know the particle will follow the configuration of least energy/action.
+            </li>
+            <li>
+                So, by solving \(\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{q}_i}\right) - \frac{\partial L}{\partial q_i} = F_{external}\) we can simulate the systems behavior 
+            </li>
+        </ul>
+
+    </div>
+
+    <div class="section">
+        <h2>External Forces</h2>
+        <ul>
+            <li><strong>Gravity compensation:</strong> Upward force equal to four times box-side weight, keeps box in frame.</li>
+            <li><strong>Box torque:</strong> Sustains box spinning and creates repeated impacts.</li>
+            <li><strong>Shaking force:</strong> Time-dependent horizontal force, implemented using SymPy’s Heaviside for piecewise control.</li>
+        </ul>
+        <div class="image-row2" algin>
+            <img src="img/me 314/heavy.png" alt="Heavyside visualization" style="width: 50%;">
+        </div>    
+        <div class="image-caption">Visualization of the Heaviside function which shakes the box</div>
+
+    </div>
+
+    <div class="section">
+        <h2>Impact Events & Update Laws</h2>
+        <ul>
+            <li>
+                <strong>Impact Detection:</strong> 16 impact “phi” conditions, one for each jack point contacting each box side. Evaluated by transforming jack-tip location into each box frame and checking for intersection (\(x\) or \(y\) coordinate crossing zero).
+            </li>
+            <li>
+                <strong>Impact Response:</strong> On detection, update laws conserve momentum as per Hamiltonian and Lagrangian matching. The update equations are solved symbolically and applied to the post-impact state, resulting in an elastic collision.
+            </li>
+            <li>
+                <strong>Example:</strong> For the configuration below, we need to check if frame {J} has crossed the y-axis of frame {F} below which is in line with the right wall of the box.
+            </li>
+        </ul>
+        <div class="image-row2" algin>
+            <img src="img/me%20314/t.png" alt="Impact Update Laws" style="width: 50%;">
+        </div>
+        <div class="image-caption">Configuraiton right before impact, where reference frames will cross one another and trigger a response</div>
+    </div>
+
+    <div class="section">
+        <h2>Simulation & Results</h2>
+        <ul>
+            <li>
+                Numerical integration is handled by a Runge-Kutta 4 (RK4) scheme.
+            </li>
+            <li>
+                Each RK4 step includes impact checks; if triggered, velocities and positions are updated immediately according to impact laws, then simulation resumes.
+            </li>
+            <video autoplay muted loop playsinline style="width: 40%; max-width: 800px; margin: 20px auto; display: block;">
+                <source src="img/me%20314/another%20video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </ul>
+        <!-- Optional: Animation or graphical results here -->
+    </div>
+
+    <div class="section">
+        <h2>Reflections</h2>
+        <p>
+            This project challenged me to combine symbolic math, mechanical insight, and robust numerical methods. Coding these mechanics from the ground up, I deepened my understanding of Lagrangian analysis and impact mechanics, and demonstrated a full workflow from equations to animation. 
+        </p>
+    </div>
+</div>
+</body>
+</html>

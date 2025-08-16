@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Egg-Safe End Effector Design</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/portfolio.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+</head>
+<body>
+<div class="container">
+    <a href="index.html#portfolio-gallery" style="text-decoration:none; font-weight:bold;">
+        ← Back to Portfolio
+    </a>
+    <h1 style="text-align: center">Egg-Safe End Effector Design</h1>
+
+    <p class="skills">
+        Skills: Factor of Safety Analysis, FEA, CAD, Mechanics of Materials, Prototyping, Experimental Validation
+    </p>
+    <video autoplay muted loop playsinline style="width: 40%; max-width: 800px; margin: 20px auto; display: block;">
+        <source src="img/end_effector/video01.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="section">
+        <h2>Project Overview</h2>
+        <p>
+            For the ME 240 final, I designed and validated an end effector to relocate an egg safely—applying enough force for motion, but not enough to cause breakage. The challenge required integration of statics, FEA, and physical testing, all while minimizing weight and ensuring mechanical reliability.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>Design Requirements & Approach</h2>
+        <ul>
+            <li><strong>Force constraint:</strong> Exert 2–9&nbsp;N on the egg (safe, non-destructive)</li>
+            <li><strong>Geometric constraints:</strong> Provided by assignment—drove CAD and layout choices</li>
+            <li><strong>Weight:</strong> Minimize for easy robot maneuverability (final: 122&nbsp;g, 14&nbsp;g less than first iteration)</li>
+        </ul>
+        <div class="image-row2" algin>
+            <img src="img/end_effector/image04.jpg" alt="Geometric Constraints" style="width:50%; margin:10px 0;"> 
+            <img src="img/end_effector/image02.jpg" alt="Geometric Constraints" style="width:50%; margin:10px 0;"> 
+        </div>
+        <div class="image-caption">Geometric constraints for the design -  necesarry to avoid self collision with the robot and to interface well</div>
+    </div>
+
+    <div class="section">
+        <h2>Factor of Safety & Mechanics Analysis</h2>
+        <ul>
+            <li>Material: <b>Nylon-12</b> (<i>E</i> = 1850&nbsp;MPa,&nbsp;<i>Y<sub>s</sub></i> = 50&nbsp;MPa)</li>
+            <li>Used cantilever beam theory to ensure max stress/&nbsp;deflection stay well below safe thresholds</li>
+            <li>Force distribution and reaction calculated via free body diagrams and static analysis</li>
+        </ul>
+        <div class="image-row2" algin>
+
+            <img src="img/end_effector/fbd.png" alt="FBD" style="width:50%; margin:10px 0;"> 
+                    <div class="image-caption">Free Body Diagram of the static component</div>
+
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Iterative Design</h2>
+        <ul>
+            <li>
+                <strong>Dynamic component:</strong><br>
+                Key innovation: I-beam cross-section on each action arm—maximizes material efficiency by putting mass far from the neutral axis, boosting moment of inertia and reducing deflection under load. 
+            </li>
+            <li>
+                <strong>Static component:</strong><br>
+                Designed for simple, robust dovetail robot interface and easy actuation.
+            </li>
+        </ul>
+        <div class="image-row">
+            <img src="img/end_effector/image08.jpg" alt="Dynamic" style="width:50%; margin:10px 0;"> 
+            <img src="img/end_effector/image09.jpg" alt="Static" style="width:50%; margin:10px 0;"> 
+        </div>
+        <div class="image-caption">Final CAD assemblies: dynamic (left), static (right)</div>
+    </div>
+
+    <div class="section">
+        <h2>FEA & Physical Testing</h2>
+        <ul>
+            <li>FEA with applied loads confirmed safety: <b>Max Von Mises stress ≈ 6.04&nbsp;MPa</b> (<b>&lt;15%</b> of Nylon-12 yield strength)</li>
+            <li>Physical deflection test: used force sensor and displacement gauge to measure force needed for 1&nbsp;mm and 2&nbsp;mm tip deflection</li>
+            <li>
+                Results closely matched simulations, validating mechanical model
+            </li>
+        </ul>
+        <div class="image-row2">
+            <img src="img/end_effector/image10.jpg" alt="Geometric Constraints" style="width:42%; margin:10px 0;"> 
+            <img src="img/end_effector/image16.jpg" alt="Geometric Constraints" style="width:37%; margin:10px 0;"> 
+            <img src="img/end_effector/image11.jpg" alt="Geometric Constraints" style="width:80%; margin:10px 0;"> 
+        </div>
+        <div class="image-caption">FEA stress cloud static (left), physical testing rig d (right), and comparison with actual testing results (bottom)</div>
+    </div>
+
+    <div class="section">
+        <h2>Project Outcome</h2>
+        <ul>
+            <li>
+                Successfully moved an egg multiple times without cracking; design stayed within all mechanical and force constraints.
+            </li>
+            <li>
+                Weight reduction achieved by iterative redesign, mainly through material-efficient I-beam arms and optimized fastener selection.
+            </li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Reflection</h2>
+        <p>
+            This project brought theory into practice—applying statics, mechanics of materials, and simulation to real engineering design. The process of iterating, validating against FEA and experiment, and achieving a practical outcome was a capstone to my sophomore coursework in mechanical engineering.
+        </p>
+    </div>
+</div>
+</body>
+</html>

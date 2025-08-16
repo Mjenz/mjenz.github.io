@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Ghost Rider – Self-Balancing Unicycle</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="css/portfolio.css">
+        
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script
+            id="MathJax-script"
+            async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+    </head>
+    <body>
+        <div class="container">
+            <a
+                href="index.html#portfolio-gallery"
+                style="text-decoration: none; font-weight: bold;"
+                >← Back to Portfolio</a
+            >
+            <h1 style="text-align: center">Ghost Rider – Self-Balancing Unicycle</h1>
+            <p class="skills">
+                Skills: Control Systems, PID Tuning, Sensor Fusion, Embedded Systems, Real-Time Systems, Mechanical Design, Sensor Fusion, CAD (Solidworks), 3D Printing, Machining, Structural Mounting, Hardware Debugging
+            </p>
+
+            <video autoplay muted loop playsinline style="width: 40%; max-width: 800px; margin: 20px auto; display: block;">                
+                <source src="img/ghostrider/cropped%20video.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>
+
+            <div class="section">
+                <h2>Project Overview</h2>
+                <p>
+                    The Ghost Rider is a self-balancing unicycle developed as part of Northwestern’s EE 327 course. Its aim was to autonomously
+                    stabilize in both sagittal (front–back) and coronal (side-to-side) planes using a <strong>DC Motor Driven Wheel</strong> and a
+                    <strong>servo-driven counterweight</strong>. Orientation feedback comes from an IMU running a tuned Madgwick filter, with separate PID
+                    controllers for each axis.
+                </p>
+                <p>
+                    While the final prototype could not balance entirely unaided, it demonstrated clear self-stabilizing responses to disturbances. Future
+                    improvements would involve nonlinear iLQR control rather than PID for better trajectory tracking and realistic unicycle dynamics.
+                </p>
+
+            </div>
+
+            <div class="section">
+                <h2>Lessons Learned</h2>
+                <p>
+                    This project didn’t go exactly as planned, but it provided valuable growth opportunities. Below are key lessons we learned throughout the
+                    quarter:
+                </p>
+                <ul>
+                    <li>
+                        <strong>Communication:</strong> Dividing work by specialty improved efficiency but limited team members’ visibility into each other’s progress. I
+                        learned that clear communication and thorough documentation are essential to effective engineering teamwork.
+                    </li>
+                    <li>
+                        <strong>Simplification:</strong> Our initial goal was ambitious. A simpler, lower-dimensional problem might have led to earlier success and foundational
+                        lessons to build on.
+                    </li>
+                    <li>
+                        <strong>Resourcefulness:</strong> Supply issues forced us to improvise by modifying a servo motor for the wheel drive. This taught me that flexibility and
+                        creativity can keep projects moving despite external setbacks.
+                    </li>
+                    <li>
+                        <strong>Safety:</strong> Working with LiPo batteries highlighted the importance of rigorous power and wiring safety precautions.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Design Constraints and Requirements</h2>
+                <p>
+                    Since self-balancing unicycles are uncommon, we defined key project parameters, including budget and motor specs. Some of our core calculations are
+                    outlined below.
+                </p>
+                <ul>
+                    <li><strong>Budget:</strong> $300 total ($100/student), final spend $219.45 — balancing motor quality, IMU accuracy, and structural choices.</li>
+                    <li>
+                        <strong>Wheel Motor Torque Requirement:</strong>
+                        \(\tau_{1,\text{max}} = 20\ \text{cm} \times 2.5\ \text{kg} = 50\ \text{kg·cm}\)
+                    </li>
+                    <li><strong>Wheel Motor Speed Requirement:</strong> 1.28 RPS under max torque load.</li>
+                    <li><strong>Counterweight Mass:</strong> \( \approx 2.26\ \text{kg} \) (51% of unicycle’s weight)</li>
+                    <li>
+                        <strong>Counterweight Motor Torque Requirement:</strong>
+                        \(\tau_{2,\text{max}} = 50\ \text{cm} \times 2.26\ \text{kg} = 113\ \text{kg·cm}\)
+                    </li>
+                    <li><strong>Battery Capacity:</strong> \(I_{\text{avg}} = 6.86\ \text{A},\ C = 3.43\ \text{Ah}\)</li>
+                </ul>
+                <div class="image-row">
+                    <img src="img/ghostrider/Front.png" alt="Torque in front plane" />
+                    <img src="img/ghostrider/Side.png" alt="Torque in side plane" />
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Mechanical Design</h2>
+                <p>
+                    The design was my primary focus. Starting from an existing unicycle, we adapted and modified it extensively. Below is an overview of the design elements:
+                </p>
+                <ul>
+                    <li>Custom seat & shaft to mount electronics and counterweight arm</li>
+                    <li>Counterweight coupling via 80/20 extrusion + 3D printed adapter</li>
+                    <li>Wheel motor coupling to modified unicycle crank axle</li>
+                </ul>
+                <div class="image-row">
+                    <img src="img/ghostrider/assembly.png" alt="Assembly" />
+                    <img src="img/ghostrider/counterweight motor.png" alt="Counterweight motor and coupling" />
+                    <img src="img/ghostrider/wheelmotor.png" alt="Wheel motor and coupling" />
+                    <img src="img/ghostrider/seat.png" alt="Seat and mounting" />
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>System Architecture</h2>
+                <p>
+                    Control is handled by an ESP32 microcontroller running FreeRTOS, with tasks for motor control, IMU reading, servo actuation, and web-server monitoring.
+                    Synchronization uses semaphores and mutexes to ensure real-time safe operation.
+                </p>
+                <ul>
+                    <li>Wheel PID → Pitch stabilization via DC motor</li>
+                    <li>Counterweight PID → Roll stabilization via servo arm</li>
+                </ul>
+                <div class="image-row">
+                    <img src="img/ghostrider/feedbackdiagram.png" alt="System block diagram" />
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>IMU Sensor Fusion</h2>
+                <p>The Madgwick filter fuses accelerometer and gyroscope data into quaternion orientation estimates:</p>
+                <p>
+                    \[
+                    q(t+\Delta t) = q(t) + \frac{1}{2} q(t) \otimes \omega(t)\Delta t - \beta \cdot \nabla f(q)
+                    \]
+                </p>
+                <p>We customized \(\beta\) dynamically using RMS accelerometer magnitude to reduce noise during motion.</p>
+            </div>
+
+            <div class="section">
+                <h2>Performance & Limitations</h2>
+                <p><strong>Wheel Motor:</strong> Stable against pitch disturbances, but prone to overshoot and oscillations.</p>
+                <p><strong>Counterweight Motor:</strong> Not robust; jitter from noisy IMU signals led to mechanical wear.</p>
+                <p><strong>Limitations:</strong> Mechanical fragility, loosening fasteners from vibration, lack of full autonomous balance.</p>
+
+
+            </div>
+
+            <div class="section">
+                <h2>Challenges</h2>
+                <ul>
+                    <li>Motor sourcing delays for wheel drive</li>
+                    <li>ESP32 flashing/recognition issues</li>
+                    <li>Wire durability under high current</li>
+                    <li>Component burnout close to demo date</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Next Steps</h2>
+                <ul>
+                    <li>Switch from PID to iLQR control for realistic balancing trajectories</li>
+                    <li>Improve mechanical robustness of couplings and mounts</li>
+                    <li>Add OTA updates and onboard telemetry logging</li>
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hexapod Self-Leveling with Q-Learning</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/portfolio.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+</head>
+<body>
+<div class="container">
+    <a href="index.html#portfolio-gallery" style="text-decoration:none; font-weight:bold;">
+        ← Back to Portfolio
+    </a>
+    <h1 style="text-align: center">Hexapod Self-Leveling with Q-Learning</h1>
+
+    <p class="skills">
+       Skills: Python, Reinforcement Learning, Q-Learning, Sensor Fusion, Hexapod Robotics
+    </p>
+    <video autoplay muted loop playsinline style="width: 80%; max-width: 800px; margin: 20px auto; display: block;">
+        <source src="img/hexapod_learning/trimmed%20vid%20copy.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+
+    <div class="section">
+        <h2>Project Overview</h2>
+        <p>
+            This project, completed for CS/ME 301, applied Q-learning for dynamic self-leveling of a HiWonder hexapod robot on an inclined surface. The robot used IMU data to evaluate its inclination and learned effective leg adjustments through trial-and-error, guided by a custom reward function. All learning ran on real hardware, demonstrating the practical challenges and successes of reinforcement learning in physical robotics.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>Reinforcement Learning Framework</h2>
+        <ul>
+            <li>
+                <strong>Task:</strong> Learn a policy to autonomously level the hexapod chassis on a sloped platform by controlling its six femur motors.
+            </li>
+            <li>
+                <strong>State Space:</strong> 3D IMU (accelerometer) readings <em>[ax, ay, az]</em> discretized into 7 buckets per axis (bucketed for tractability), yielding 343 possible states.
+            </li>
+            <li>
+                <strong>Action Space:</strong> For each epoch, robot could increase, decrease, or hold each femur motor—18 cumulative actions possible (6 motors × 3 actions).
+            </li>
+            <li>
+                <strong>Goal State:</strong> IMU values close to 0.0 in the x and y directions, and close to 1.0 in the z direction — indicating that the robot is level.
+            </li>
+            <li>
+                <strong>Reward Function:</strong>
+                <ul>
+                    <li>Negative squared error distance from goal, encouraging states closer to horizontal.</li>
+                    <li>Positive step reward for moving closer to goal state.</li>
+                    <li>Large positive reward on reaching the level state (within small tolerance of goal orientation).</li>
+                    <li>Penalty for joint limit violations to avoid self-collisions.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Algorithm:</strong> Tabular Q-learning with epsilon-greedy exploration for balancing learning new actions and exploiting known good actions.
+            </li>
+        </ul>
+        <div class="image-row">
+            <img src="img/hexapod_learning/crab.png" alt="Hexapod Self-Leveling" style="width:40%">
+            <img src="img/hexapod_learning/Picture2.png" alt="Markov Decision Process" style="width:35%">
+        </div>
+        <div class="image-caption">Left: Hexapod leg DOFs used for leveling. Right: RL Markov Decision Process flow.</div>
+    </div>
+
+    <div class="section">
+        <h2>Training Process</h2>
+        <ul>
+            <li>IMU values read after every leg movement, mapped to discrete <tt>state</tt> bucket.</li>
+            <li>At each step, a random or greedy action was chosen, robot moved, new state observed, and Q-table updated via:</li>
+        </ul>
+\[Q(S, A) &larr; Q(S, A) + α [R + γ max Q(S', a') - Q(S, A)]\]
+        <ul>
+            <li>Robot trained on real inclined surface (5°–15°). Each epoch: 50 steps per episode, reset/reposition between epochs for broader table coverage.</li>
+        </ul>
+        <video autoplay muted loop playsinline style="width: 50%; max-width: 800px; margin: 20px auto; display: block;">
+            <source src="img/hexapod_learning/IMG_1885.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div class="section">
+        <h2>Results & Analysis</h2>
+        <ul>
+            <li><b>195 epochs</b> (up to 50 moves each); 28 reached the target level state (<b>~14% success</b>).</li>
+            <li>Accelerometer readings and rewards, and motor positions all recorded for analysis after learning.</li>
+        </ul>
+        <div class="image-row2">
+            <img src="img/hexapod_learning/reward.png" alt="Accelerometer & Reward data" style="width:80%">
+            <div class="image-caption">
+            Reward trends (raw/average/std) over time show that the system became less level as the epoch continued, and the increase in SD shows that the robot was not able to learn and reduce its variance enough
+        </div>
+            <img src="img/hexapod_learning/goal.png" alt="Goal State Timestamps" style="width:80%">
+            <div class="image-caption">
+            Timestamps of epochs where the goal state was reached show that the rate of sucessful epochs accelerated (large gap is from night away from lab)
+        </div>
+            <img src="img/hexapod_learning/servo_position.png" alt="Servo Motor Position Histogram" style="width:80%">
+                  <div class="image-caption">
+            Servo position histogram reveals that there was little to no bias learned for the position of the motors
+        </div>
+        </div>
+
+    </div>
+
+    <div class="section">
+        <h2>Limitations & Reflections</h2>
+        <ul>
+            <li>Limited training time along with huge state space led to a sparse Q-table; more data is needed for robust self-leveling.</li>
+            <li>Reward design impacted learning quality; negative global error reward may have countered incremental learning. We should have considered removing negative reinforcement.</li>
+            <li>Using a nearly continuous state forced us to discritize it, thus losing the precision of the sensor. A type of RL that does not require this sort of discritization may be better suited for this task. </li>
+            <li>This project showed that training a RL algorithm on hardware is extremely difficult, and likely more successful if at least part of the training is conducted in simulation.</li>
+        </ul>
+    </div>
+
+
+</div>
+</body>
+</html>

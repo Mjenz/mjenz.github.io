@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Line Following Robot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/portfolio.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+</head>
+<body>
+<div class="container">
+    <a href="index.html#portfolio-gallery" style="text-decoration:none; font-weight:bold;">
+        ← Back to Portfolio
+    </a>
+    <h1 style="text-align: center">Line Following Robot</h1>
+
+    <p class="skills">
+        Skills: Image Processing, PID Control, Embedded Programming, OpenCV, Robotics, Rapid Prototyping
+    </p>
+        <video autoplay muted loop playsinline style="width: 80%; max-width: 800px; margin: 20px auto; display: block;">
+        <source src="img/line%20following%20robot/Timed%20Lap%20Cropped.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="center-button">
+        <a href="https://github.com/Mjenz/line_following_robot" target="_blank" class="github-btn">
+            <i class="fab fa-github"></i> GitHub Repo
+        </a>
+    </div>
+
+    <div class="section">
+        <h2>Project Summary</h2>
+        <p>
+            ME 433 capstone: Designed and built an autonomous 2-wheel robot that follows a line using real-time image processing and onboard control. Nearly all aspects—mechanics, electronics, software—were custom built, with a focus on robust computer vision and an effective PID-based drive system.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>Mechanical Design</h2>
+        <ul>
+            <li>Chassis optimized for fast prototyping—minimal structure, with attention to weight and simplicity.</li>
+            <li>Oversized, 4.5-inch custom wheels with O-ring grooves for added traction; enabled higher theoretical speed, though processing bottleneck limited real track velocity.</li>
+        </ul>
+        <div class="image-row2">
+            <img src="img/line%20following%20robot/mechanical.jpg" alt="Mechanical Assembly" style="width:60%; margin:10px 0;"> 
+        </div>
+        <div class="image-caption">Mechanical design in Onshape CAD</div>
+    </div>
+
+    <div class="section">
+        <h2>System Architecture & Controls</h2>
+        <ul>
+            <li>Camera module streams video to <strong>Raspberry Pi Zero W</strong>, which handles image acquisition and vision processing.</li>
+            <li>Processed line position is sent to a <strong>Raspberry Pi Pico</strong> running a PID controller for real-time PWM motor commands.</li>
+            <li>Feedback loop: Each image yields a new line center estimation &rarr; PID calculates error &rarr; PWM adjusts motor speeds for steering.</li>
+        </ul>
+        <div class="image-row2">
+            <img src="img/line%20following%20robot/arch_diagram.jpg" alt="Architecture Diagram" style="width:60%; margin: 10px 0;"> 
+        </div>
+        <div class="image-caption">Block diagram for line following robot control system</div>
+
+    </div>
+
+    <div class="section">
+        <h2>Image Processing Pipeline</h2>
+        <ul>
+            <li>
+                <strong>Efficient buffer streaming</strong>: Uses OpenCV.VideoCapture with buffer size 1 to ensure fresh
+                frames.
+            </li>
+        </ul>
+
+        <div class="image-row2">
+            <img src="img/line following robot/initial.jpg" alt="Raw Camera Input" style="width: 60%" />
+        </div>
+        <div class="image-caption">Starting image</div>
+
+        <ul>
+            <li>
+                <strong>Cropping</strong>: Slices the bottom 100 pixels of each frame (height 190–290, full width) for
+                rapid processing and forward look-ahead.
+            </li>
+        </ul>
+
+        <div class="image-row2">
+            <img src="img/line following robot/cropped.jpg" alt="Cropped" style="width: 80%" />
+        </div>
+            <div class="image-caption">Cropped image</div>
+
+        <ul>
+            <li>
+                <strong>Preprocessing</strong>: Grayscale conversion, followed by <strong>Gaussian blur</strong> (\(3
+                \times 3\) kernel) for noise reduction.
+            </li>
+        </ul>
+
+        <div class="image-row2">
+            <img src="img/line following robot/blurred.jpg" alt="Blurred" style="width: 80%" />
+        </div>
+        <div class="image-caption">Blurred image</div>
+
+        <ul>
+            <li><strong>Thresholding</strong>: Binarizes image to isolate line (pixels above threshold = line).</li>
+        </ul>
+
+        <div class="image-row2">
+            <img src="img/line following robot/threshed.jpg" alt="Threshed" style="width: 80%" />
+        </div>
+        <div class="image-caption">Thresheld image</div>
+
+        <ul>
+            <li>
+                <strong>Contour Extraction</strong>: Identifies all contours, selects the largest (the line), and
+                computes its centroid using spatial moments.
+            </li>
+        </ul>
+
+        <div class="image-row2">
+            <img src="img/line following robot/contours.jpg" alt="Raw Camera Input" style="width: 80%" />
+        </div>
+        <div class="image-caption">Countour highlighted in green</div>
+
+        <ul>
+            <li><strong>Single-Value Output</strong>: Outputs line center (0–639 px) as real-time control signal.</li>
+        </ul>
+
+        <div class="image-row2">
+            <video autoplay muted loop playsinline style="width: 80%; max-width: 800px; margin: 20px auto; display: block;">
+            <source src="img/line following robot/CV video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="image-caption">Simulated run of CV program, scanning from bottom to top a single image</div>
+
+    </div>
+                
+
+
+    <div class="section">
+        <h2>Motor Control & PID</h2>
+        <ul>
+            <li>
+                Target setpoint fixed at pixel 320 (center). Error = 320 - current_center.
+            </li>
+            <li>
+                PID controller (hand-tuned) outputs steering command to each motor as PWM values.</li>
+            <li>
+                <strong>Bias Compensation:</strong> Hardware asymmetry addressed by subtle PWM offset to slower motor.</li>
+            <li>
+                Output of controller is converted to PWM and sent to H-bridge to control motors.
+            </li>
+        </ul>
+         <div class="image-row2">
+            <video autoplay muted loop playsinline style="width: 80%; max-width: 800px; margin: 20px auto; display: block;">
+            <source src="img/line following robot/turning_demo.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+            </video>
+         </div>
+        <div class="image-caption">Demonstration of control system reaction</div>
+
+    </div>
+
+    <div class="section">
+        <h2>Performance & Demonstration</h2>
+        <ul>
+            <li>Robot completed a full lap in under <strong>56.31 seconds</strong>.</li>
+                 <div class="image-row2">
+                    <video autoplay muted loop playsinline style="width: 80%; max-width: 800px; margin: 20px auto; display: block;">
+                    <source src="img/line following robot/Double View.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                    </video>
+                 </div>
+                <div class="image-caption">Dual view of robot completing a circuit</div>
+
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>What I'd Improve Next</h2>
+        <ul>
+            <li>Smaller wheels for lower mechanical and control latency—improved handling of sharper corners.</li>
+            <li>Remount motors so both drive the same direction, then allowing me to remove software bias workaround.</li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>
