@@ -952,7 +952,6 @@ textarea.form-control {
   margin-bottom: 10px;
   border-radius: 8px;
   padding-top: 1px;
-  background-color: rgba(0, 0, 0, 0.8); /* semi-transparent black */
 }
 
 .work-section .title h2 {
@@ -1415,7 +1414,7 @@ figure.effect-julia:hover p {
 }
 
 .overlay-caption {
-  background-color: rgba(0, 0, 0, 0.8); /* semi-transparent black */
+  background-color: #4e2a84; /* semi-transparent black */
   color: white;
   /*padding: 1px;*/
   border-radius: 8px;
