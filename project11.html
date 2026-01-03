@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Unscented Kalman Filter – Probabilistic State Estimation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/portfolio.css">
+
+    <!-- MathJax for equations -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+</head>
+
+<body>
+<div class="container">
+
+    <a href="index.html#portfolio-gallery" style="text-decoration:none; font-weight:bold;">
+        ← Back to Portfolio
+    </a>
+
+    <h1 style="text-align: center">
+        Probabilistic State Estimation with an Unscented Kalman Filter
+    </h1>
+
+    <p class="skills">
+        Skills: Probabilistic Robotics, State Estimation, Unscented Kalman Filter,
+        Motion Modeling, Sensor Fusion, Python, Data Analysis
+    </p>
+
+    <div class="center-button">
+        <a href="https://github.com/Mjenz/UKF_ME469"
+           target="_blank"
+           class="github-btn">
+            <i class="fab fa-github"></i> GitHub Repo
+        </a>
+        
+        <a href="img/UKF/ME469_Report0_Michael_Jenz.pdf"
+           target="_blank"
+           class="paper-btn">
+            <i class="fas fa-file-pdf"></i> Project Report
+        </a>
+        
+    </div>
+
+    <div class="section">
+        <h2>Project Overview</h2>
+        <p>
+            This project implements an Unscented Kalman Filter (UKF) to estimate the
+            planar pose of a differential-drive robot. The state is defined as
+            \( \mathbf{x} = [x, y, \theta]^T \) and is estimated from noisy velocity
+            commands and beacon-based measurements.
+        </p>
+        <p>
+            Performance is compared directly against dead reckoning to demonstrate
+            the benefit of probabilistic state estimation under uncertainty.
+        </p>
+        
+        <div class="image-row">
+            <img src="img/UKF/config.jpeg" alt="Motion model illustration">
+        </div>
+        <div class="image-caption">
+            Robot configuration in 2D plane.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Motion Model</h2>
+        <p>
+            The robot motion model assumes a differential-drive platform driven by
+            linear and angular velocity commands \( \mathbf{u} = [v, \omega] \).
+            Over a discrete timestep \( \Delta t \), the motion model is:
+        </p>
+
+        <p style="text-align:center;">
+            \[
+            \begin{aligned}
+            x_{k+1} &= x_k + v \cos(\theta_k)\Delta t \\
+            y_{k+1} &= y_k + v \sin(\theta_k)\Delta t \\
+            \theta_{k+1} &= \theta_k + \omega \Delta t
+            \end{aligned}
+            \]
+        </p>
+
+        <p>
+            Gaussian process noise is added to account for actuator uncertainty,
+            wheel slip, and unmodeled dynamics. This model is used both for dead
+            reckoning and the UKF prediction step.
+        </p>
+
+        <div class="image-row">
+            <img src="img/UKF/motion_model_design.jpeg" alt="Motion model illustration">
+        </div>
+        <div class="image-caption">
+            Motion model propagation over time (replace image path as needed)
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Measurement Model</h2>
+        <p>
+            Measurements consist of range and bearing observations to known beacons
+            at positions \( (x_b, y_b) \). The nonlinear measurement model is:
+        </p>
+
+        <p style="text-align:center;">
+            \[
+            \begin{aligned}
+            r &= \sqrt{(x - x_b)^2 + (y - y_b)^2} \\
+            \phi &= \mathrm{atan2}(y_b - y, x_b - x) - \theta
+            \end{aligned}
+            \]
+        </p>
+
+        <p>
+            Measurement noise is modeled as zero-mean Gaussian noise applied to both
+            range and bearing. These nonlinear equations motivate the use of a UKF
+            rather than a linearized EKF.
+        </p>
+
+        <div class="image-row">
+            <img src="img/UKF/measurement_model_design.png" alt="Measurement model illustration">
+        </div>
+        <div class="image-caption">
+            Beacon-based range and bearing measurements
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Unscented Kalman Filter</h2>
+        <p>
+            The Unscented Kalman Filter propagates uncertainty through nonlinear
+            dynamics using deterministically chosen sigma points that capture
+            the mean and covariance of the state distribution.
+        </p>
+        <p>
+            Unlike the Extended Kalman Filter, the UKF does not require Jacobians.
+            Instead, sigma points are passed through the nonlinear motion and
+            measurement models and recombined to update the state estimate.
+        </p>
+
+    </div>
+
+    <div class="section">
+        <h2>Performance Comparison</h2>
+        <p>
+            Dead reckoning accumulates error over time due to uncorrected process
+            noise, resulting in significant drift in both position and orientation.
+        </p>
+        <p>
+            The UKF continuously corrects state estimates using beacon measurements,
+            keeping estimation error bounded throughout the trajectory.
+        </p>
+
+    
+        <div class="image-row3" >
+            <img src="img/UKF/performane_comparison2.png"
+                 alt="Dead reckoning vs UKF trajectory comparison" height="400">
+     
+        </div>
+        <div class="image-caption">
+            Trajectory comparison: dead reckoning (drift) vs UKF (corrected)
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Reflections</h2>
+        <p>
+            This project demonstrated the limitations of purely kinematic estimation
+            and the effectiveness of probabilistic filtering. Implementing the UKF
+            from scratch provided valuable insight into uncertainty propagation and
+            sensor fusion for mobile robots.
+        </p>
+    </div>
+
+</div>
+</body>
+</html>

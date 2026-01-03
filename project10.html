@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Robotic Domino Artist – ME450 Final Project</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/portfolio.css">
+</head>
+
+<body>
+<div class="container">
+
+    <a href="index.html#portfolio-gallery" style="text-decoration:none; font-weight:bold;">
+        ← Back to Portfolio
+    </a>
+
+    <h1 style="text-align: center">Domino Stacking Robot</h1>
+
+    <p style="text-align:center; font-style:italic;">
+        Contributors: Michael Jenz, Gregory Aiosa, Daniel Augustin, Chenyu Zhu
+    </p>
+
+    <p class="skills">
+        Skills: ROS 2, Python, Robotic Manipulation, Computer Vision,
+        Force-Controlled Placement, Motion Planning, System Integration
+    </p>
+
+    <video autoplay muted loop playsinline
+        style="width: 80%; max-width: 800px; margin: 20px auto; display: block;">
+        <source src="img/me450/video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="center-button">
+        <a href="https://github.com/Mjenz/final-project-africanpanda"
+           target="_blank"
+           class="github-btn">
+            <i class="fab fa-github"></i> GitHub Repo
+        </a>
+    </div>
+
+    <div class="section">
+        <h2>Summary</h2>
+        <p>
+            This project uses the Franka Emika Robot (FER) to autonomously manipulate
+            dominoes into predefined patterns and then topple them. The system records
+            the initial positions of the dominoes using a computer vision pipeline,
+            plans collision-aware manipulation motions, and executes placement with
+            force-controlled contact.
+        </p>
+        <p>
+            To avoid collisions and grasping failures, dominoes are first reoriented
+            into a staging configuration before final placement. Due to variation in
+            the table height, force-based placement was implemented to ensure reliable
+            contact with the surface.
+        </p>
+        <p>
+            Accurate camera extrinsic calibration was required for reliable performance.
+            The camera was calibrated in-hand using <code>easy_handeye2</code>, and the
+            resulting calibration was used throughout the manipulation pipeline.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>Demo</h2>
+        <p>
+            The video above shows the full system performing domino placement followed
+            by a toppling sequence once all dominoes reach their goal poses.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>System Architecture</h2>
+
+        <h3>Domino Movement Algorithm</h3>
+        <p>
+            The domino movement algorithm is the core routine responsible for moving
+            dominoes from their initial positions to the final pattern. Each domino
+            follows a three-stage process:
+        </p>
+        <ol>
+            <li>Initial pickup from the table</li>
+            <li>Staging and reorientation into a standing configuration</li>
+            <li>Final placement into the goal pose</li>
+        </ol>
+        <p>
+            The staging step is critical due to the small size of the dominoes and the
+            geometry of the gripper. Attempting to place dominoes directly from a lying
+            configuration resulted in collisions with neighboring dominoes. Reorienting
+            them first enabled safe and repeatable placement.
+        </p>
+
+        <h3>Domino Vision Algorithm</h3>
+        <p>
+            The vision pipeline identifies the pose of each domino on the table and
+            publishes these poses to the TF tree when requested by the manipulation node.
+        </p>
+        <ol>
+            <li>
+                <strong>Position Identification:</strong> Color filtering is used to
+                detect domino centers in the image, and depth data is combined with
+                camera intrinsics to compute 3D positions.
+            </li>
+            <li>
+                <strong>Orientation Identification:</strong> Bounding boxes are used to
+                estimate the domino’s orientation about the vertical axis, which is
+                converted into a quaternion.
+            </li>
+        </ol>
+        <p>
+            This approach assumes the camera is perpendicular to the table and that the
+            table surface is flat. In practice, these assumptions were imperfect and
+            introduced small pose errors that accumulated during placement.
+        </p>
+
+        <h3>Force-Controlled Placement</h3>
+        <p>
+            To compensate for inaccuracies in table height and vision estimation,
+            force-controlled placement was implemented. During pickup and placement,
+            the robot lowers the gripper until the measured joint effort exceeds a
+            threshold, indicating contact with the table.
+        </p>
+        <p>
+            This eliminated hard-coded height values and significantly increased the
+            robustness of the system. Implementing this behavior required temporarily
+            disabling collision objects for the table and dominoes to prevent planning
+            failures during forced contact.
+        </p>
+        <p>
+            While this required careful management of collision objects and scene state,
+            it ultimately turned discrepancies between simulation and the real world
+            into a tool rather than a limitation.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>Reflections</h2>
+        <p>
+            This project highlighted the complexity of real-world robotic manipulation.
+            Small perception errors quickly compound without feedback, and reliable
+            systems require tight integration between sensing, planning, and control.
+        </p>
+        <p>
+            Implementing force-controlled placement and asynchronous execution monitoring
+            dramatically improved system robustness and shaped how I approach manipulation
+            problems moving forward.
+        </p>
+    </div>
+
+</div>
+</body>
+</html>

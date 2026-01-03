@@ -47,6 +47,11 @@ img, video {
 .image-row2 {
     text-align: center;
 }
+image-row3 {
+    text-align: center;
+    width: 80%;
+}
+
 .image-row img {
     max-width: 300px;
     height: auto;
