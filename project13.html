@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EKF SLAM – ME495 Final Project</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/portfolio.css">
+</head>
+
+<body>
+<div class="container"> 
+
+    <a href="index.html#portfolio-gallery" style="text-decoration:none; font-weight:bold;">
+        ← Back to Portfolio
+    </a>
+
+    <h1 style="text-align: center">EKF SLAM on Turtlebot3</h1>
+
+    <p style="text-align:center; font-style:italic;">
+        ME 495: Sensing, Navigation, and Machine Learning for Robotics &nbsp;|&nbsp; Michael Jenz &nbsp;|&nbsp; Winter 2026
+    </p>
+
+    <p class="skills">
+        Skills: ROS 2, C++, Extended Kalman Filter, LiDAR Processing, SLAM, Sensor Fusion
+    </p>
+
+    <!-- Side-by-side video (hardware + rviz) -->
+    <video autoplay muted loop playsinline
+        style="width: 80%; max-width: 800px; margin: 20px auto; display: block;">
+        <source src="img/slam/sidebyside.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="center-button">
+        <a href="https://github.com/Mjenz/slam-Mjenz"
+           target="_blank"
+           class="github-btn">
+            <i class="fab fa-github"></i> GitHub Repo
+        </a>
+    </div>
+
+    <div class="section">
+        <h2>Summary</h2>
+        <p>
+            This project is the culmination of ME 495: Sensing, Navigation, and Machine Learning for Robotics.
+            It implements <strong>Simultaneous Localization and Mapping (SLAM)</strong> using an
+            <strong>Extended Kalman Filter (EKF)</strong> on a Turtlebot3, validated in both
+            simulation and on hardware.
+        </p>
+        <p>
+            The system detects cylindrical obstacles from raw 2D LiDAR point clouds, associates
+            them with a growing landmark map, and continuously corrects the robot's estimated pose.
+            In simulation, the SLAM estimate converged to within <strong>1 mm</strong> of ground truth.
+            On hardware, it outperformed pure odometry by a factor of three in final position accuracy.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>Results</h2>
+        <p>
+            All three robot representations — ground truth (red), odometry (blue), and SLAM (green) —
+            are visualized simultaneously in RViz. The tables below summarize final position error
+            after a closed-loop traversal of the environment.
+        </p>
+        
+        <figure style="width:80%; max-width:800px; margin:20px auto;">
+             <img src="img/slam/results.png"
+                 alt="RViz screenshot showing ground truth, odometry, and SLAM estimates with mapped obstacles"
+                 style="width:80%; max-width:800px; margin:20px auto; display:block;">
+            <figcaption style="text-align:center; font-style:italic; color:#666; margin-top:6px;">
+                RViz visualization showing final Rviz results from the simulation test.
+            </figcaption>
+         </figure>
+   
+        <figure style="width:80%; max-width:800px; margin:20px auto;">
+             <img src="img/slam/hardware_results.png"
+                 alt="RViz screenshot showing ground truth, odometry, and SLAM estimates with mapped obstacles"
+                 style="width:80%; max-width:800px; margin:20px auto; display:block;">
+            <figcaption style="text-align:center; font-style:italic; color:#666; margin-top:6px;">
+                RViz visualization showing final Rviz results from the hardware test.
+            </figcaption>
+        </figure>
+
+        <h3>Simulation</h3>
+        <table style="width:100%; border-collapse:collapse; margin-bottom:1em;">
+            <thead>
+                <tr style="background:rgba(0,0,0,0.05);">
+                    <th style="text-align:left; padding:8px; border-bottom:1px solid #ccc;">Estimate</th>
+                    <th style="text-align:left; padding:8px; border-bottom:1px solid #ccc;">x (m)</th>
+                    <th style="text-align:left; padding:8px; border-bottom:1px solid #ccc;">y (m)</th>
+                    <th style="text-align:left; padding:8px; border-bottom:1px solid #ccc;">θ (°)</th>
+                    <th style="text-align:left; padding:8px; border-bottom:1px solid #ccc;">Distance from Truth</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding:8px; border-bottom:1px solid #eee;">Ground truth (red)</td>
+                    <td style="padding:8px; border-bottom:1px solid #eee;">0.0725</td>
+                    <td style="padding:8px; border-bottom:1px solid #eee;">−0.0153</td>
+                    <td style="padding:8px; border-bottom:1px solid #eee;">−2.469</td>
+                    <td style="padding:8px; border-bottom:1px solid #eee;">—</td>
+                </tr>
+                <tr>
+                    <td style="padding:8px; border-bottom:1px solid #eee;">Odometry (blue)</td>
+                    <td style="padding:8px; border-bottom:1px solid #eee;">0.2698</td>
+                    <td style="padding:8px; border-bottom:1px solid #eee;">0.4571</td>
+                    <td style="padding:8px; border-bottom:1px solid #eee;">−2.813</td>
+                    <td style="padding:8px; border-bottom:1px solid #eee;">0.512 m</td>
+                </tr>
+                <tr style="font-weight:bold;">
+                    <td style="padding:8px;">SLAM (green)</td>
+                    <td style="padding:8px;">0.0723</td>
+                    <td style="padding:8px;">−0.0149</td>
+                    <td style="padding:8px;">−2.435</td>
+                    <td style="padding:8px;">0.0005 m (< 1 mm)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Hardware</h3>
+        <table style="width:100%; border-collapse:collapse; margin-bottom:1em;">
+            <thead>
+                <tr style="background:rgba(0,0,0,0.05);">
+                    <th style="text-align:left; padding:8px; border-bottom:1px solid #ccc;">Estimate</th>
+                    <th style="text-align:left; padding:8px; border-bottom:1px solid #ccc;">x (m)</th>
+                    <th style="text-align:left; padding:8px; border-bottom:1px solid #ccc;">y (m)</th>
+                    <th style="text-align:left; padding:8px; border-bottom:1px solid #ccc;">θ (°)</th>
+                    <th style="text-align:left; padding:8px; border-bottom:1px solid #ccc;">Distance from Start</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding:8px; border-bottom:1px solid #eee;">Odometry (blue)</td>
+                    <td style="padding:8px; border-bottom:1px solid #eee;">−0.0225</td>
+                    <td style="padding:8px; border-bottom:1px solid #eee;">0.0613</td>
+                    <td style="padding:8px; border-bottom:1px solid #eee;">−0.555</td>
+                    <td style="padding:8px; border-bottom:1px solid #eee;">0.065 m</td>
+                </tr>
+                <tr style="font-weight:bold;">
+                    <td style="padding:8px;">SLAM (green)</td>
+                    <td style="padding:8px;">0.0264</td>
+                    <td style="padding:8px;">−0.0016</td>
+                    <td style="padding:8px;">−1.822</td>
+                    <td style="padding:8px;">0.026 m (3× improvement)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="section">
+        <h2>System Architecture</h2>
+        <p>
+            The project is organized as a set of ROS 2 packages and C++ libraries that each handle
+            a distinct stage of the SLAM pipeline:
+        </p>
+        <ul>
+            <li><strong>nusim</strong> — Simulates the robot, environment, and sensors, providing ground truth for evaluation.</li>
+            <li><strong>nuturtle_control</strong> — Translates velocity commands into wheel motion and integrates encoder data into an odometry estimate.</li>
+            <li><strong>detectlib</strong> — Processes raw LiDAR scans to detect, classify, and localize cylindrical landmarks.</li>
+            <li><strong>ekflib / nuslam</strong> — Fuses odometry and landmark measurements via an EKF to jointly estimate robot pose and a growing landmark map.</li>
+        </ul>
+
+        <h3>Simulation — <code>nusim</code></h3>
+        <ul>
+            <li>Provides a fully configurable simulator for the Turtlebot3, including a world of obstacles and walls.</li>
+            <li>Models realistic <strong>wheel slip and input noise</strong> so behavior closely matches the physical robot.</li>
+            <li>Publishes a simulated 2D LiDAR scan and maintains a <strong>ground truth pose</strong> for quantitative evaluation.</li>
+        </ul>
+
+        <h3>Robot Control &amp; Odometry — <code>nuturtle_control</code></h3>
+        <ul>
+            <li>The <code>turtle_control</code> node converts <code>cmd_vel</code> messages into wheel commands for both the simulator and the physical robot.</li>
+            <li>The <code>odometry</code> node integrates encoder readings using <strong>differential-drive kinematics</strong> to produce a continuous pose estimate — the baseline that SLAM is measured against.</li>
+            <li>Supports seamless switching between simulation and hardware via launch arguments, with no changes to the SLAM stack required.</li>
+        </ul>
+
+        <h3>LiDAR Landmark Detection — <code>detectlib</code></h3>
+        <p>Raw LiDAR scans are processed in three stages before being handed off to the EKF:</p>
+        <ol>
+            <li><strong>Clustering:</strong> Consecutive LiDAR returns within a distance threshold are grouped into clusters, each a candidate obstacle.</li>
+            <li><strong>Classification:</strong> A <code>CircularClassifier</code> uses the inscribed angle theorem — points on a circle subtend a constant angle to the chord — to distinguish circular obstacles from linear features such as walls.</li>
+            <li><strong>Regression:</strong> A <code>CircularRegressor</code> fits a circle to the cluster of points, outting the radius and center of the potential obstacle.</li>
+        </ol>
+
+        <h3>EKF State Estimation — <code>ekflib</code> / <code>nuslam</code></h3>
+        <ul>
+            <li>The state vector <strong>jointly tracks robot pose and all observed landmark positions</strong>, so every landmark correction also improves the pose estimate.</li>
+            <li>On each odometry update, the filter propagates state through a nonlinear motion model and inflates uncertainty accordingly.</li>
+            <li>When a landmark measurement arrives, a Kalman gain is computed and both the pose estimate is corrected simultaneously.</li>
+            <li>Implements <strong>unknown data association</strong> via Mahalanobis distance: each measurement is matched to the nearest known landmark if within a tunable threshold, otherwise it seeds a new map entry — allowing the map to grow incrementally without pre-labeled observations.</li>
+        </ul>
+    </div>
+    
+    <div class="section">
+        <h2>Reflections</h2>
+        <p>
+            Implementing all these algorithms was difficult, however, getting them working on hardware was even more so.
+            Even when starting with parameters tuned in simulation, the 2D LiDAR sensor on the turtlebot3 was noisier and lead to
+            more unpredictable behavior from the object detection algorithm. In this process, I found out how critical the data association
+            step is. If the algorithm mis-identified an obstacle it would send the SLAM estimate across the map. To combat these issues I needed
+            to add much higher thresholds to my obstacle filtering, which in the end was able to get good enough performance.
+        </p>
+        <p>
+            In the results video you can see how infrequently the algorithm identifies a new obstacle (a pink obstacle pops up)
+            because of these strict filtering parameters. Even so, the algorithm mistakes the walls at times for obstacles.
+            Given the time constraints I was not able to tune my algorithm further, however, these extra obstacles should not
+            affect the performance of the algorithm since they are initialized with extremely high uncertaintly.
+        </p>
+        <p>
+            I learned so much while working on this project, after starting with very little 'true' c++ experience. Looking forward I am 
+            excited to work on more challenges like these in the field of robotics!
+        </p>
+    </div>
+
+</div>
+</body>
+</html>
