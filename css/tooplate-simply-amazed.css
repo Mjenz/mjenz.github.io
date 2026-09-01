@@ -779,7 +779,8 @@ textarea.form-control {
 .banner-section .logo-fa {
   color: #fff;
   max-width: 400px;
-  margin-left: 5px;
+  margin-left: auto;
+  margin-right: auto;
   padding-top: 43px;
   padding-bottom: 35px;
   font-size: 32px;
@@ -818,7 +819,6 @@ textarea.form-control {
   color: #fff;
   display: inline-block;
   margin: auto;
-  margin-left: 97px;
   padding: 33px 68px 34px 68px;
 }
 
